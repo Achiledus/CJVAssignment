@@ -17,9 +17,9 @@
     "web-vitals": "^2.1.4"
   },
   "scripts": {
-    "start": "concurrently \"npm run server\" \"npm run client\"",
-    "server": "json-server --watch db.json --port 5000",
-    "client": "react-scripts start",
+    "start": "react-scripts start",
+    "eject": "react-script eject",
+    "test" : "react-script test",
     "build": "react-scripts build"
   },
   "eslintConfig": {
