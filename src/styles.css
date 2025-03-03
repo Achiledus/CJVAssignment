@@ -498,8 +498,8 @@ footer a:hover {
   background: linear-gradient(to right, #ded7cb, #444);
   padding: 15px 20px;
   border-radius: 12px;
-  margin: 10px auto;
-  margin-bottom: 150px;
+  margin: 80px auto;
+  margin-bottom: 20px;
   width: 95%;
   max-width: 900px;
   justify-content: space-between;
@@ -652,7 +652,7 @@ footer a:hover {
 }
 .stressed {
   margin-top: 10px; 
-  margin-bottom: 300px;
+  margin-bottom: 100px;
 }
 
 .stressed h2 {
