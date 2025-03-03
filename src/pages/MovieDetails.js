@@ -8,7 +8,7 @@ function MovieDetails() {
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    axios.get(`http://localhost:5000/movies/${id}`)
+    axios.get(`https://json-server-ikn8.onrender.com/movies/${id}`)
       .then(response => setMovie(response.data))
       .catch(error => console.error("Error fetching movie details:", error));
   }, [id]);

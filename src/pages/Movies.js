@@ -16,7 +16,7 @@ function Movies() {
   const selectedActor = query.get("actor");
 
   useEffect(() => {
-    axios.get("http://localhost:5000/movies")
+    axios.get("https://json-server-ikn8.onrender.com/movies")
       .then(response => {
         setMovies(response.data);
         setSpotlightMovies(shuffleArray(response.data).slice(0, 5)); // Pick 5 movies for spotlight
