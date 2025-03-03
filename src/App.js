@@ -7,6 +7,8 @@ import Register from "./pages/Register";
 import NavBar from "./components/Navbar";
 import Footer from "./components/Footer";
 
+// hosting on: https://cjv-assignment-hqbjnsnd3-achiledus-projects.vercel.app/
+// please make sure the localhost/5000 is running. 
 
 function App() {
   return (
