@@ -13,10 +13,12 @@ const HeroSection = ({ children }) => {
     <div
     style={{backgroundImage: `url(${HeroBackground})`,
       width: "100%",
-      height: "120vh",
+      height: "120%",
       backgroundSize: "cover",
       justifyContent: "center",
      }}>
+
+
     <Box
       sx={{
         position: "relative",

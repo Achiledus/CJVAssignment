@@ -7,7 +7,7 @@ function Home() {
   return (
     <div className="test">
       <HeroSection/>
-      {<MovieSlider />}    
+      <MovieSlider />    
     </div>
     
   );
