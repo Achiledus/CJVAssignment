@@ -1,15 +1,15 @@
 import React from "react";
-import "../styles.css"; 
-import ContentSection from "../components/ContentSection";
+// import ContentSection from "../components/ContentSection";
 import HeroSection from "../components/HeroSection";
+import MovieSlider from "../components/MovieSlider"; 
 
 function Home() {
   return (
-    <div>
-      <HeroSection>
-        <ContentSection /> 
-      </HeroSection>
+    <div className="test">
+      <HeroSection/>
+      {<MovieSlider />}    
     </div>
+    
   );
 }
 

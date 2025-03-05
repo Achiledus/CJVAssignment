@@ -1,7 +1,17 @@
 import React, { useState, useEffect } from "react";
 import { Link, useLocation } from "react-router-dom";
 import axios from "axios";
-import "../styles.css";
+import {
+  Box,
+  Typography,
+  Grid,
+  Card,
+  CardMedia,
+  CardContent,
+  CircularProgress,
+  Tabs,
+  Tab,
+} from "@mui/material";
 import Background from "../MovieAssets/Drawn_Background.png";
 
 function useQuery() {
@@ -11,24 +21,28 @@ function useQuery() {
 function Movies() {
   const [movies, setMovies] = useState([]);
   const [spotlightMovies, setSpotlightMovies] = useState([]);
-  const [activeTab, setActiveTab] = useState("All"); 
+  const [activeTab, setActiveTab] = useState("All");
   const query = useQuery();
   const selectedActor = query.get("actor");
 
   useEffect(() => {
-    axios.get("https://json-server-ikn8.onrender.com/movies")
-      .then(response => {
+    axios
+      .get("https://json-server-ikn8.onrender.com/movies")
+      .then((response) => {
         setMovies(response.data);
-        setSpotlightMovies(shuffleArray(response.data).slice(0, 5)); // Pick 5 movies for spotlight
+        setSpotlightMovies(shuffleArray(response.data).slice(0, 5));
       })
-      .catch(error => console.error("Error fetching movies:", error));
+      .catch((error) =>
+        console.error("code better dumby, fetching movies:", error)
+      );
   }, []);
 
   function shuffleArray(array) {
     return array.sort(() => Math.random() - 0.5);
   }
 
-  const filteredMovies = movies.filter(movie => {
+  // Filter Movies
+  const filteredMovies = movies.filter((movie) => {
     if (selectedActor) {
       return movie.actors && movie.actors.includes(selectedActor);
     }
@@ -42,62 +56,160 @@ function Movies() {
     return true;
   });
 
+  if (movies.length === 0) {
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
+  }
+
   return (
-    <div className="movies-page" style={{ backgroundImage: `url(${Background})` }}>
-      
-      {/*Spotlight Section Styled Like Content Section */}
-      <section className="spotlight-section">
-        <div className="spotlight-header">
-          <h2>MOVIE SPOTLIGHT</h2>
-        </div>
-        <div className="spotlight-container">
-          {spotlightMovies.map(movie => (
-            <div key={movie.id} className="spotlight-card">
-              <Link to={`/movies/${movie.id}`}>
-                <img src={require(`../MovieAssets/MoviePosters/${movie.img1}`)} alt={movie.title} className="spotlight-poster"/>
+    <Box
+      sx={{
+        backgroundImage: `url(${Background})`,
+        minHeight: "100vh",
+        paddingBottom: 4,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      {/* Spotlight Section */}
+      <Box sx={{ textAlign: "center", 
+        py: 1,
+        background: "linear-gradient(to right, #ded7cb, #444)",
+        borderRadiu: "25%" }}>
+        <Typography variant="h4" color="white" fontWeight="bold">
+          MOVIE SPOTLIGHT
+        </Typography>
+        <Grid container spacing={2} justifyContent="center" mt={2}>
+          {spotlightMovies.map((movie) => (
+            <Grid item key={movie.id}>
+              <Link to={`/movies/${movie.id}`} style={{ textDecoration: "none" }}>
+                <Card
+                  sx={{
+                    width: 150,
+                    bgcolor: "rgba(255,255,255,0.2)",
+                    borderRadius: 2,
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    height="220"
+                    image={require(`../MovieAssets/MoviePosters/${movie.img1}`)}
+                    alt={movie.title}
+                  />
+                </Card>
               </Link>
-            </div>
+            </Grid>
           ))}
-        </div>
-      </section>
+        </Grid>
+      </Box>
 
       {/* Show actor's name if filtering by actor */}
-      {selectedActor && <h3>Movies starring: {selectedActor}</h3>}
+      {selectedActor && (
+        <Typography variant="h5" color="white" textAlign="center" mt={3}>
+          Movies starring: {selectedActor}
+        </Typography>
+      )}
 
-      {/* Tab Navigation */}
+      {/* Category Tabs */}
       {!selectedActor && (
-        <div className="tab-container">
-          <div className="tabs">
+        <Box
+          sx={{
+            display: "flex",
+            justifyContent: "center",
+            mt: 3,
+            backgroundColor: "rgba(0,0,0,0.8)",
+            borderRadius: 2,
+          }}
+        >
+          <Tabs
+            value={activeTab}
+            onChange={(event, newValue) => setActiveTab(newValue)}
+            textColor="secondary"
+            indicatorColor="secondary"
+            sx={{
+              "& .MuiTab-root": {
+                color: "white",
+                fontWeight: "bold",
+              },
+              "& .Mui-selected": {
+                color: "#ff9e80",
+               
+              },
+            }}
+          >
             {["All", "Animation", "Live-action", "TV", "Movies"].map((tab) => (
-              <div 
-                key={tab} 
-                className={`tab ${activeTab === tab ? "active" : ""}`} 
-                onClick={() => setActiveTab(tab)}
-              >
-                {tab}
-              </div>
+              <Tab key={tab} label={tab} value={tab} />
             ))}
-            <div className="tab-indicator" style={{ left: `${["All", "Animation", "Live-action", "TV", "Movies"].indexOf(activeTab) * 20}%` }} />
-          </div>
-        </div>
+          </Tabs>
+        </Box>
       )}
 
       {/* Movies Grid */}
-      <div className="movies-grid">
+      <Box 
+            sx={{
+              display: "flex", 
+              gap: 2,
+              flexWrap: "wrap", mt: 3, 
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              background: "linear-gradient(to right, #ded7cb, #444)",
+              padding: "10px 2px",
+              borderRadius: "12px",
+              width: "100%",
+              maxWidth: "1000px",
+              margin: "40px auto",
+              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)"
+            }}
+            >
+      <Grid container spacing={2} justifyContent="center" mt={4}>
         {filteredMovies.length > 0 ? (
-          filteredMovies.map(movie => (
-            <div key={movie.id} className="movie-card">
-              <Link to={`/movies/${movie.id}`}>
-                <img src={require(`../MovieAssets/MoviePosters/${movie.img1}`)} alt={movie.title} className="movie-poster"/>
-                <p>{movie.title}</p>
+          filteredMovies.map((movie) => (
+         
+            <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
+              <Link to={`/movies/${movie.id}`} style={{ textDecoration: "none" }}>
+                <Card
+                  sx={{
+                    bgcolor: "rgba(255,255,255,0.2)",
+                    borderRadius: 2,
+                    textAlign: "center",
+                  }}
+                >
+                  <CardMedia
+                    component="img"
+                    height="360"
+                    image={require(`../MovieAssets/MoviePosters/${movie.img1}`)}
+                    alt={movie.title}
+                  />
+                  <CardContent>
+                    <Typography variant="h6" color="white">
+                      {movie.title}
+                    </Typography>
+                  </CardContent>
+                </Card>
               </Link>
-            </div>
+            </Grid>
+           
+
           ))
         ) : (
-          <p>No movies found for this selection.</p>
+          <Typography variant="h6" color="white" textAlign="center">
+            No movies found for this selection.
+          </Typography>
         )}
-      </div>
-    </div>
+      </Grid>
+      </Box>
+    </Box>
   );
 }
 

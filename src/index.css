@@ -12,58 +12,29 @@ code {
     monospace;
 }
 
-/* index.css - Global Styles */
-.overlay {
-  position: fixed;
-  inset: 0;
-  background: rgba(0, 0, 0, 0.5);
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  z-index: 50;
+.css-5c1adp-MuiContainer-root{
+  max-width: 100% !important;
+  padding-right: 0 !important;
+  padding-left: 0 !important;
 }
 
-.popup {
-  background: #ded7cb;
-  padding: 20px;
-  border-radius: 8px;
-  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.2);
-  width: 350px;
-  text-align: center;
-  position: relative;
+.css-1yokd9y{
+  margin-top: 0 !important;
+  padding: 3rem 0 !important;
+}
+.css-83o3wo-MuiTypography-root{
+margin-bottom: 12px !important;
 }
 
-.popup h2 {
-  font-size: 20px;
-  font-weight: bold;
+.css-1m1sd7b{
+  height: 100% !important;
 }
 
-.popup input {
-  width: 90%;
-  padding: 10px;
-  margin: 5px 0;
-  border: 1px solid #ccc;
-  border-radius: 5px;
+.css-1m3239m{
+  max-width: 100% !important;
+  width: 100% !important;
 }
 
-.popup button {
-  width: 100%;
-  background: red;
-  color: white;
-  padding: 10px;
-  border: none;
-  border-radius: 5px;
-  margin-top: 10px;
-  cursor: pointer;
+.css-94vsi3{
+  z-index: 999 !important;
 }
-
-.popup .close-btn {
-  position: absolute;
-  top: 5px;
-  right: 150px;
-  background: none;
-  border: none;
-  font-size: 18px;
-  cursor: pointer;
-}
-

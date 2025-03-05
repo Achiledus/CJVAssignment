@@ -1,54 +1,137 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import axios from "axios";
-import "../styles.css"; 
+import {
+  Box,
+  Typography,
+  Button,
+  CircularProgress,
+  Card,
+  CardMedia,
+  CardContent,
+} from "@mui/material";
 
 function MovieDetails() {
   const { id } = useParams();
   const [movie, setMovie] = useState(null);
 
   useEffect(() => {
-    axios.get(`https://json-server-ikn8.onrender.com/movies/${id}`)
-      .then(response => setMovie(response.data))
-      .catch(error => console.error("Error fetching movie details:", error));
+    axios
+      .get(`https://json-server-ikn8.onrender.com/movies/${id}`)
+      .then((response) => setMovie(response.data))
+      .catch((error) => console.error("Error fetching movie details:", error));
   }, [id]);
 
   if (!movie) {
-    return <p>Loading...</p>;
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          alignItems: "center",
+          height: "100vh",
+        }}
+      >
+        <CircularProgress />
+      </Box>
+    );
   }
 
   return (
-    <div className="movie-details" style={{ 
-      width: "100vw",
-            height: "80vh",
-            display: "flex",
-            flexDirection: "column",
-            alignItems: "center",
-            justifyContent: "center",
-            backgroundImage: `url(${require(`../MovieAssets/MoviePosters/${movie.img2}`)})`,
-            backgroundSize: "cover",  
-            backgroundRepeat: "no-repeat",
-            backgroundPosition: "center"
-       }}>
-    
-      <div className="movie-info">
-        <img src={require(`../MovieAssets/MoviePosters/${movie.img1}`)} alt={movie.title} className="movie-poster" />
-        <div className="movie-content">
-          <h1>{movie.title}</h1>
-          <p className="movie-meta">{movie.genre} | {movie.year}</p>
-          <div className="tab-menu">
-            <span>Episodes</span>
-            <span className="active-tab">Details</span>
-          </div>
-          <p className="movie-description">{movie.description}</p>
-          <div className="buttons">
-            <button className="play-button">▶ Rent</button>
-            <button className="buy-button">$ Buy</button>
-            <button className="trailer-button"> Trailer</button>
-          </div>
-        </div>
-      </div>
-    </div>
+    <Box
+      sx={{
+        width: "100vw",
+        height: "90vh",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center",
+        justifyContent: "center",
+        backgroundImage: `url(${require(`../MovieAssets/MoviePosters/${movie.img2}`)})`,
+        backgroundSize: "cover",
+        backgroundRepeat: "no-repeat",
+        backgroundPosition: "center",
+        position: "relative",
+      }}
+    >
+      {/* Dark Overlay for Readability */}
+      <Box
+        sx={{
+          position: "absolute",
+          top: 0,
+          left: 0,
+          width: "100%",
+          height: "100%",
+          backgroundColor: "rgba(0, 0, 0, 0.6)",
+        }}
+      />
+
+      {/* Movie Info */}
+      <Box
+        sx={{
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          gap: 4,
+          maxWidth: "1100px",
+          width: "90%",
+          zIndex: 2,
+          flexWrap: "wrap",
+        }}
+      >
+        {/* Movie Poster */}
+        <Card sx={{ maxWidth: 250, bgcolor: "rgba(255,255,255,0.2)" }}>
+          <CardMedia
+            component="img"
+            height="350"
+            image={require(`../MovieAssets/MoviePosters/${movie.img1}`)}
+            alt={movie.title}
+          />
+        </Card>
+
+        {/* Movie Details */}
+        <Box sx={{ maxWidth: 600, color: "white", textAlign: "center" }}>
+          <Typography variant="h3" fontWeight="bold">
+            {movie.title}
+          </Typography>
+          <Typography variant="h6" color="gray" sx={{ mt: 1 }}>
+            {movie.genre} | {movie.year}
+          </Typography>
+
+          {/* Tab Menu */}
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 2,
+              mt: 2,
+            }}
+          >
+            <Typography variant="body1">Episodes</Typography>
+            <Typography variant="body1" sx={{ fontWeight: "bold" }}>
+              Details
+            </Typography>
+          </Box>
+
+          {/* Movie Description */}
+          <Typography variant="body1" sx={{ mt: 2 }}>
+            {movie.description}
+          </Typography>
+
+          {/* Action Buttons */}
+          <Box sx={{ display: "flex", gap: 2, justifyContent: "center", mt: 3 }}>
+            <Button variant="contained" color="error" size="large">
+              ▶ Rent
+            </Button>
+            <Button variant="contained" color="primary" size="large">
+              $ Buy
+            </Button>
+            <Button variant="outlined" color="secondary" size="large">
+              Trailer
+            </Button>
+          </Box>
+        </Box>
+      </Box>
+    </Box>
   );
 }
 

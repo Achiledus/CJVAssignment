@@ -1,5 +1,14 @@
 import React, { useState } from "react";
-import "../styles.css"; // Import global styles
+import {
+  Box,
+  Typography,
+  TextField,
+  Button,
+  Checkbox,
+  FormControlLabel,
+  Paper,
+  Grid,
+} from "@mui/material";
 import Background from "../MovieAssets/Drawn_Background.png"; // Background Image
 
 function Register() {
@@ -30,35 +39,154 @@ function Register() {
   };
 
   return (
-    <div className="register-page" style={{ backgroundImage: `url(${Background})` }}>
-      <div className="register-container">
-        <h2 className="register-title">REGISTRATION</h2>
+    <Box
+      sx={{
+        minHeight: "100vh",
+        display: "flex",
+        justifyContent: "center",
+        alignItems: "center",
+        backgroundImage: `url(${Background})`, // ✅ Set Background Image
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+        backgroundRepeat: "no-repeat",
+      }}
+    >
+      <Paper
+        elevation={3}
+        sx={{
+          p: 4,
+          borderRadius: "12px",
+          width: "100%",
+          maxWidth: 420,
+          textAlign: "center",
+          backgroundColor: "#ded7cb", // ✅ Beige Background for Form
+        }}
+      >
+        <Typography variant="h5" fontWeight="bold" gutterBottom>
+          REGISTRATION
+        </Typography>
 
-        <form onSubmit={handleSubmit} className="register-form">
-          <div className="name-fields">
-            <input type="text" name="firstName" placeholder="First name" onChange={handleChange} required />
-            <input type="text" name="lastName" placeholder="Last name" onChange={handleChange} required />
-          </div>
-          <input type="email" name="email" placeholder="Email" onChange={handleChange} required />
-          <input type="password" name="password" placeholder="Enter Password" onChange={handleChange} required />
-          <input type="password" name="confirmPassword" placeholder="Confirm Password" onChange={handleChange} required />
+        <form onSubmit={handleSubmit}>
+          {/* Name Fields */}
+          <Grid container spacing={2}>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                variant="filled"
+                placeholder="First name"
+                name="firstName"
+                onChange={handleChange}
+                required
+                sx={{ bgcolor: "white", borderRadius: "5px" }}
+              />
+            </Grid>
+            <Grid item xs={6}>
+              <TextField
+                fullWidth
+                variant="filled"
+                placeholder="Last name"
+                name="lastName"
+                onChange={handleChange}
+                required
+                sx={{ bgcolor: "white", borderRadius: "5px" }}
+              />
+            </Grid>
+          </Grid>
 
-          <button type="submit" className="register-button">Register</button>
+          {/* Email Field */}
+          <TextField
+            fullWidth
+            variant="filled"
+            placeholder="Email"
+            type="email"
+            name="email"
+            onChange={handleChange}
+            required
+            sx={{ mt: 2, bgcolor: "white", borderRadius: "5px" }}
+          />
 
-          <div className="terms">
-            <input type="checkbox" name="agreedToTerms" onChange={handleChange} required />
-            <p>
-              By clicking the checkbox, you agree to Sensei’s <a href="#">Terms of Service Agreement</a> and <a href="#">Privacy Policy</a>.
-            </p>
-          </div>
+          {/* Password Fields */}
+          <TextField
+            fullWidth
+            variant="filled"
+            placeholder="Enter Password"
+            type="password"
+            name="password"
+            onChange={handleChange}
+            required
+            sx={{ mt: 2, bgcolor: "white", borderRadius: "5px" }}
+          />
+          <TextField
+            fullWidth
+            variant="filled"
+            placeholder="Confirm Password"
+            type="password"
+            name="confirmPassword"
+            onChange={handleChange}
+            required
+            sx={{ mt: 2, bgcolor: "white", borderRadius: "5px" }}
+          />
 
-          <div className="social-buttons">
-            <button className="google-button">Google</button>
-            <button className="facebook-button">Facebook</button>
-          </div>
+          {/* Register Button */}
+          <Button
+            type="submit"
+            variant="contained"
+            fullWidth
+            sx={{
+              mt: 2,
+              bgcolor: "red",
+              color: "white",
+              fontWeight: "bold",
+              borderRadius: "5px",
+              "&:hover": { bgcolor: "darkred" },
+            }}
+          >
+            Register
+          </Button>
+
+          {/* Agree to Terms Checkbox */}
+          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mt: 2 }}>
+            <Checkbox name="agreedToTerms" onChange={handleChange} required color="default" />
+            <Typography variant="body2">
+              By clicking the checkbox, you agree to Sensei’s{" "}
+              <a href="#" style={{ color: "red" }}>Terms of Service Agreement</a> and{" "}
+              <a href="#" style={{ color: "red" }}>Privacy Policy</a>.
+            </Typography>
+          </Box>
+
+          {/* Social Media Buttons */}
+          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{
+                bgcolor: "white",
+                color: "black",
+                border: "1px solid gray",
+                fontWeight: "bold",
+                borderRadius: "5px",
+                mr: 1,
+              }}
+            >
+              Google
+            </Button>
+            <Button
+              fullWidth
+              variant="contained"
+              sx={{
+                bgcolor: "#3b5998",
+                color: "white",
+                fontWeight: "bold",
+                borderRadius: "5px",
+                ml: 1,
+              }}
+            >
+              Facebook
+            </Button>
+          </Box>
         </form>
-      </div>
-    </div>
+      </Paper>
+    </Box>
   );
 }
 
