@@ -42,7 +42,7 @@ function Movies() {
   }
 
   // Filter Movies
-  const filteredMovies = movies.filter((movie) => {
+  const filteredMovies = movies.filter((movie) => { 
     if (selectedActor) {
       return movie.actors && movie.actors.includes(selectedActor);
     }

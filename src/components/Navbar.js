@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { AppBar, Toolbar, Typography, Button, IconButton, Box } from "@mui/material";
 import { Link } from "react-router-dom";
 import LoginPopup from "./LoginPopup";
-import MenuIcon from "@mui/icons-material/Menu";
+
 
 function NavBar() {
   const [isLoginOpen, setIsLoginOpen] = useState(false);

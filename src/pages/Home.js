@@ -6,8 +6,9 @@ import MovieSlider from "../components/MovieSlider";
 function Home() {
   return (
     <div className="test">
+      <MovieSlider /> 
       <HeroSection/>
-      <MovieSlider />    
+   
     </div>
     
   );

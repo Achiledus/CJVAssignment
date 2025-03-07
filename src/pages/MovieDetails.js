@@ -8,7 +8,6 @@ import {
   CircularProgress,
   Card,
   CardMedia,
-  CardContent,
 } from "@mui/material";
 
 function MovieDetails() {

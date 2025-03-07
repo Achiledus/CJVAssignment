@@ -49,7 +49,10 @@ const HeroSection = ({ children }) => {
 
      
       <Box sx={{ position: "relative", zIndex: 2, mt: 4 }}>
-        <Typography variant="h3" fontWeight="bold" gutterBottom>
+        <Typography variant="h3" fontWeight="bold" gutterBottom
+        sx= {{
+          mt: "55px"
+          }}>
           Welcome to Your Movie Universe
         </Typography>
          {children}

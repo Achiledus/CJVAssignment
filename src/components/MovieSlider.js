@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from "react";
-import { Box, IconButton, Typography } from "@mui/material";
+import { Box, IconButton} from "@mui/material";
 import ArrowBackIosIcon from "@mui/icons-material/ArrowBackIos";
 import ArrowForwardIosIcon from "@mui/icons-material/ArrowForwardIos";
 import axios from "axios";
@@ -7,7 +7,7 @@ import axios from "axios";
 const MovieSlider = () => {
   const [movies, setMovies] = useState([]);
   const [currentIndex, setCurrentIndex] = useState(0);
-  const moviesPerPage = 5; // ✅ Show 5 posters at a time
+  const moviesPerPage = 5; 
 
   useEffect(() => {
     axios
@@ -18,12 +18,13 @@ const MovieSlider = () => {
       .catch((error) => console.error("Error fetching movies:", error));
   }, []);
 
-  // **Next Slide**
-  const nextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex + moviesPerPage >= movies.length ? 0 : prevIndex + moviesPerPage
-    );
-  };
+  // ✅ Moves one movie at a time (loops at the end)
+const nextSlide = () => {
+  setCurrentIndex((prevIndex) =>
+    prevIndex + 1 >= movies.length ? 0 : prevIndex + 1
+  );
+};
+
 
   // **Previous Slide**
   const prevSlide = () => {
@@ -38,6 +39,7 @@ const MovieSlider = () => {
         width: "100%",
         backgroundColor: "rgba(0, 0, 0, 0.5)",
         display: "flex",
+        
         justifyContent: "center",
         alignItems: "center",
         position: "relative",
@@ -51,7 +53,7 @@ const MovieSlider = () => {
           position: "absolute",
           left: 10,
           color: "white",
-          backgroundColor: "rgba(0,0,0,0.5)",
+          backgroundColor: "rgba(0,0,0,0.2)",
           "&:hover": { backgroundColor: "rgba(0,0,0,0.8)" },
         }}
       >
@@ -82,7 +84,7 @@ const MovieSlider = () => {
             <Box
               key={movie.id}
               sx={{
-                flex: "0 0 20%", // ✅ Ensures 5 images fit in a row
+                flex: "0 0 20%", 
                 textAlign: "center",
                 position: "relative",
               }}
@@ -109,7 +111,7 @@ const MovieSlider = () => {
           position: "absolute",
           right: 10,
           color: "white",
-          backgroundColor: "rgba(0,0,0,0.5)",
+          backgroundColor: "rgba(0,0,0,0.2)",
           "&:hover": { backgroundColor: "rgba(0,0,0,0.8)" },
         }}
       >
