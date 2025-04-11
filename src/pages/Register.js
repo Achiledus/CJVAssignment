@@ -1,17 +1,19 @@
 import React, { useState } from "react";
+import { useNavigate } from "react-router-dom";
+import axios from "axios";
 import {
   Box,
   Typography,
   TextField,
   Button,
   Checkbox,
-  FormControlLabel,
   Paper,
   Grid,
 } from "@mui/material";
-import Background from "../MovieAssets/Drawn_Background.png"; // Background Image
+import Background from "../MovieAssets/Drawn_Background.png";
 
-function Register() {
+function Register({ setUser }) {
+  const navigate = useNavigate();
   const [formData, setFormData] = useState({
     firstName: "",
     lastName: "",
@@ -35,7 +37,24 @@ function Register() {
       alert("Passwords do not match!");
       return;
     }
-    alert("Registration successful!");
+
+    axios
+      .post("https://cjvbackend.onrender.com/api/users/register", {
+        firstName: formData.firstName,
+        lastName: formData.lastName,
+        email: formData.email,
+        password: formData.password,
+      })
+      .then((response) => {
+        alert(`Welcome, ${response.data.firstName}!`);
+        setUser(response.data); 
+        localStorage.setItem("user", JSON.stringify(response.data)); 
+        navigate("/"); 
+      })
+      .catch((error) => {
+        console.error("Registration failed:", error);
+        alert("Something went wrong. Try again.");
+      });
   };
 
   return (
@@ -45,10 +64,9 @@ function Register() {
         display: "flex",
         justifyContent: "center",
         alignItems: "center",
-        backgroundImage: `url(${Background})`, // ✅ Set Background Image
+        backgroundImage: `url(${Background})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
-        backgroundRepeat: "no-repeat",
       }}
     >
       <Paper
@@ -56,10 +74,9 @@ function Register() {
         sx={{
           p: 4,
           borderRadius: "12px",
-          width: "100%",
           maxWidth: 420,
-          textAlign: "center",
-          backgroundColor: "#ded7cb", // ✅ Beige Background for Form
+          width: "100%",
+          backgroundColor: "#ded7cb",
         }}
       >
         <Typography variant="h5" fontWeight="bold" gutterBottom>
@@ -67,7 +84,6 @@ function Register() {
         </Typography>
 
         <form onSubmit={handleSubmit}>
-          {/* Name Fields */}
           <Grid container spacing={2}>
             <Grid item xs={6}>
               <TextField
@@ -93,7 +109,6 @@ function Register() {
             </Grid>
           </Grid>
 
-          {/* Email Field */}
           <TextField
             fullWidth
             variant="filled"
@@ -105,7 +120,6 @@ function Register() {
             sx={{ mt: 2, bgcolor: "white", borderRadius: "5px" }}
           />
 
-          {/* Password Fields */}
           <TextField
             fullWidth
             variant="filled"
@@ -127,7 +141,26 @@ function Register() {
             sx={{ mt: 2, bgcolor: "white", borderRadius: "5px" }}
           />
 
-          {/* Register Button */}
+          <Box sx={{ display: "flex", alignItems: "center", mt: 2 }}>
+            <Checkbox
+              name="agreedToTerms"
+              onChange={handleChange}
+              required
+              color="default"
+            />
+            <Typography variant="body2">
+              I agree to the{" "}
+              <a href="#" style={{ color: "red" }}>
+                Terms
+              </a>{" "}
+              and{" "}
+              <a href="#" style={{ color: "red" }}>
+                Privacy Policy
+              </a>
+              .
+            </Typography>
+          </Box>
+
           <Button
             type="submit"
             variant="contained"
@@ -137,53 +170,11 @@ function Register() {
               bgcolor: "red",
               color: "white",
               fontWeight: "bold",
-              borderRadius: "5px",
               "&:hover": { bgcolor: "darkred" },
             }}
           >
             Register
           </Button>
-
-          {/* Agree to Terms Checkbox */}
-          <Box sx={{ display: "flex", alignItems: "center", justifyContent: "center", mt: 2 }}>
-            <Checkbox name="agreedToTerms" onChange={handleChange} required color="default" />
-            <Typography variant="body2">
-              By clicking the checkbox, you agree to Sensei’s{" "}
-              <a href="#" style={{ color: "red" }}>Terms of Service Agreement</a> and{" "}
-              <a href="#" style={{ color: "red" }}>Privacy Policy</a>.
-            </Typography>
-          </Box>
-
-          {/* Social Media Buttons */}
-          <Box sx={{ display: "flex", justifyContent: "space-between", mt: 2 }}>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{
-                bgcolor: "white",
-                color: "black",
-                border: "1px solid gray",
-                fontWeight: "bold",
-                borderRadius: "5px",
-                mr: 1,
-              }}
-            >
-              Google
-            </Button>
-            <Button
-              fullWidth
-              variant="contained"
-              sx={{
-                bgcolor: "#3b5998",
-                color: "white",
-                fontWeight: "bold",
-                borderRadius: "5px",
-                ml: 1,
-              }}
-            >
-              Facebook
-            </Button>
-          </Box>
         </form>
       </Paper>
     </Box>

@@ -1,6 +1,14 @@
 import React from "react";
 import { Link } from "react-router-dom";
-import { Box, Typography, Avatar, Grid } from "@mui/material";
+import {
+  Box,
+  Typography,
+  Avatar,
+  Grid,
+  Tooltip,
+} from "@mui/material";
+
+// Import your actor images
 import actor1 from "../MovieAssets/actors/actor1.png";
 import actor2 from "../MovieAssets/actors/actor2.png";
 import actor3 from "../MovieAssets/actors/actor3.png";
@@ -31,42 +39,64 @@ const ContentSection = () => {
         maxWidth: "900px",
         margin: "40px auto",
         boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)",
+        flexDirection: { xs: "column", sm: "row" }, // mobile friendly
       }}
     >
-      {/* Actor Spotlight Title */}
+      {/* Title */}
       <Typography
         variant="h6"
         fontWeight="bold"
         color="#002b44"
-        sx={{ textAlign: "left", pr: 3 }}
+        sx={{ textAlign: "left", pr: { sm: 3 }, mb: { xs: 2, sm: 0 } }}
       >
         ACTOR'S <br /> SPOTLIGHT
       </Typography>
 
-      {/* Actor Images */}
-      <Grid container spacing={2} justifyContent="center">
-        {actors.map((actor, index) => (
-          <Grid item key={index}>
-            <Link
-              to={`/movies?actor=${encodeURIComponent(actor.name)}`}
-              style={{ textDecoration: "none" }}
-            >
-              <Avatar
-                src= {actor.img}
-                alt={actor.name}
-                sx={{
-                  width: 70,
-                  height: 70,
-                  borderRadius: "25%",
-                  transition: "transform 0.3s ease-in-out",
-                  "&:hover": { transform: "scale(1.3)" },
-                }}
-                title={`View movies of ${actor.name}`}
-              />
-            </Link>
-          </Grid>
-        ))}
-      </Grid>
+      {/* Actor Avatars */}
+      <Box sx={{ overflowX: "auto", width: "100%" }}>
+        <Grid
+          container
+          spacing={2}
+          justifyContent="center"
+          wrap="nowrap"
+          sx={{ flexWrap: { sm: "wrap" } }}
+        >
+          {actors.map((actor) => (
+            <Grid item key={actor.name} sx={{ textAlign: "center" }}>
+              <Link
+                to={`/movies?actor=${encodeURIComponent(actor.name)}`}
+                style={{ textDecoration: "none" }}
+              >
+                <Tooltip title={`View movies with ${actor.name}`} arrow>
+                  <Avatar
+                    src={actor.img}
+                    alt={actor.name}
+                    sx={{
+                      width: 70,
+                      height: 70,
+                      borderRadius: "25%",
+                      transition: "transform 0.3s ease-in-out",
+                      "&:hover": { transform: "scale(1.3)" },
+                      border: "2px solid white",
+                    }}
+                  />
+                </Tooltip>
+                <Typography
+                  variant="caption"
+                  sx={{
+                    mt: 1,
+                    color: "white",
+                    display: "block",
+                    fontSize: "0.75rem",
+                  }}
+                >
+                  {actor.name.split(" ")[0]} 
+                </Typography>
+              </Link>
+            </Grid>
+          ))}
+        </Grid>
+      </Box>
     </Box>
   );
 };

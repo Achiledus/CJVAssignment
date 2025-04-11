@@ -27,13 +27,13 @@ function Movies() {
 
   useEffect(() => {
     axios
-      .get("https://json-server-ikn8.onrender.com/movies")
+      .get("https://cjvbackend.onrender.com/api/movies/all")
       .then((response) => {
         setMovies(response.data);
         setSpotlightMovies(shuffleArray(response.data).slice(0, 5));
       })
       .catch((error) =>
-        console.error("code better dumby, fetching movies:", error)
+        console.error("Error fetching movies:", error)
       );
   }, []);
 
@@ -42,16 +42,16 @@ function Movies() {
   }
 
   // Filter Movies
-  const filteredMovies = movies.filter((movie) => { 
+  const filteredMovies = movies.filter((movie) => {
     if (selectedActor) {
       return movie.actors && movie.actors.includes(selectedActor);
     }
     if (activeTab === "All") return true;
     if (activeTab === "Animation" || activeTab === "Live-action") {
-      return movie.category1 === activeTab;
+      return movie.type && movie.type.includes(activeTab);
     }
     if (activeTab === "TV" || activeTab === "Movies") {
-      return movie.category2 === activeTab;
+      return movie.type === activeTab;
     }
     return true;
   });
@@ -82,17 +82,24 @@ function Movies() {
       }}
     >
       {/* Spotlight Section */}
-      <Box sx={{ textAlign: "center", 
-        py: 1,
-        background: "linear-gradient(to right, #ded7cb, #444)",
-        borderRadiu: "25%" }}>
+      <Box
+        sx={{
+          textAlign: "center",
+          py: 1,
+          background: "linear-gradient(to right, #ded7cb, #444)",
+          borderRadius: "25%",
+        }}
+      >
         <Typography variant="h4" color="white" fontWeight="bold">
           MOVIE SPOTLIGHT
         </Typography>
         <Grid container spacing={2} justifyContent="center" mt={2}>
           {spotlightMovies.map((movie) => (
             <Grid item key={movie.id}>
-              <Link to={`/movies/${movie.id}`} style={{ textDecoration: "none" }}>
+              <Link
+                to={`/movies/${movie.id}`}
+                style={{ textDecoration: "none" }}
+              >
                 <Card
                   sx={{
                     width: 150,
@@ -103,7 +110,11 @@ function Movies() {
                   <CardMedia
                     component="img"
                     height="220"
-                    image={require(`../MovieAssets/MoviePosters/${movie.img1}`)}
+                    image={
+                      movie.smallPoster
+                        ? require(`../MovieAssets/MoviePosters/${movie.smallPoster}`)
+                        : require(`../MovieAssets/MoviePosters/${movie.largePoster}`)
+                    }
                     alt={movie.title}
                   />
                 </Card>
@@ -113,7 +124,7 @@ function Movies() {
         </Grid>
       </Box>
 
-      {/* Show actor's name if filtering by actor */}
+      {/* Actor Filter */}
       {selectedActor && (
         <Typography variant="h5" color="white" textAlign="center" mt={3}>
           Movies starring: {selectedActor}
@@ -143,7 +154,6 @@ function Movies() {
               },
               "& .Mui-selected": {
                 color: "#ff9e80",
-               
               },
             }}
           >
@@ -155,59 +165,61 @@ function Movies() {
       )}
 
       {/* Movies Grid */}
-      <Box 
-            sx={{
-              display: "flex", 
-              gap: 2,
-              flexWrap: "wrap", mt: 3, 
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              background: "linear-gradient(to right, #ded7cb, #444)",
-              padding: "10px 2px",
-              borderRadius: "12px",
-              width: "100%",
-              maxWidth: "1000px",
-              margin: "40px auto",
-              boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)"
-            }}
-            >
-      <Grid container spacing={2} justifyContent="center" mt={4}>
-        {filteredMovies.length > 0 ? (
-          filteredMovies.map((movie) => (
-         
-            <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
-              <Link to={`/movies/${movie.id}`} style={{ textDecoration: "none" }}>
-                <Card
-                  sx={{
-                    bgcolor: "rgba(255,255,255,0.2)",
-                    borderRadius: 2,
-                    textAlign: "center",
-                  }}
+      <Box
+        sx={{
+          display: "flex",
+          gap: 2,
+          flexWrap: "wrap",
+          mt: 3,
+          alignItems: "center",
+          justifyContent: "center",
+          background: "linear-gradient(to right, #ded7cb, #444)",
+          padding: "10px 2px",
+          borderRadius: "12px",
+          width: "100%",
+          maxWidth: "1000px",
+          margin: "40px auto",
+          boxShadow: "0px 4px 8px rgba(0, 0, 0, 0.3)",
+        }}
+      >
+        <Grid container spacing={2} justifyContent="center" mt={4}>
+          {filteredMovies.length > 0 ? (
+            filteredMovies.map((movie) => (
+              <Grid item key={movie.id} xs={12} sm={6} md={4} lg={3}>
+                <Link
+                  to={`/movies/${movie.id}`}
+                  style={{ textDecoration: "none" }}
                 >
-                  <CardMedia
-                    component="img"
-                    height="360"
-                    image={require(`../MovieAssets/MoviePosters/${movie.img1}`)}
-                    alt={movie.title}
-                  />
-                  <CardContent>
-                    <Typography variant="h6" color="white">
-                      {movie.title}
-                    </Typography>
-                  </CardContent>
-                </Card>
-              </Link>
-            </Grid>
-           
-
-          ))
-        ) : (
-          <Typography variant="h6" color="white" textAlign="center">
-            No movies found for this selection.
-          </Typography>
-        )}
-      </Grid>
+                  <Card
+                    sx={{
+                      bgcolor: "rgba(255,255,255,0.2)",
+                      borderRadius: 2,
+                      textAlign: "center",
+                    }}
+                  >
+                    {movie.smallPoster && (
+                      <CardMedia
+                        component="img"
+                        height="200"
+                        image={require(`../MovieAssets/MoviePosters/${movie.smallPoster}`)}
+                        alt={movie.title}
+                      />
+                    )}
+                    <CardContent>
+                      <Typography variant="h6" color="white">
+                        {movie.title}
+                      </Typography>
+                    </CardContent>
+                  </Card>
+                </Link>
+              </Grid>
+            ))
+          ) : (
+            <Typography variant="h6" color="white" textAlign="center">
+              No movies found for this selection.
+            </Typography>
+          )}
+        </Grid>
       </Box>
     </Box>
   );

@@ -16,7 +16,7 @@ function MovieDetails() {
 
   useEffect(() => {
     axios
-      .get(`https://json-server-ikn8.onrender.com/movies/${id}`)
+      .get(`https://cjvbackend.onrender.com/api/movies/${id}`)
       .then((response) => setMovie(response.data))
       .catch((error) => console.error("Error fetching movie details:", error));
   }, [id]);
@@ -45,7 +45,7 @@ function MovieDetails() {
         flexDirection: "column",
         alignItems: "center",
         justifyContent: "center",
-        backgroundImage: `url(${require(`../MovieAssets/MoviePosters/${movie.img2}`)})`,
+        backgroundImage: `url(${require(`../MovieAssets/MoviePosters/${movie.largePoster}`)})`,
         backgroundSize: "cover",
         backgroundRepeat: "no-repeat",
         backgroundPosition: "center",
@@ -82,7 +82,7 @@ function MovieDetails() {
           <CardMedia
             component="img"
             height="350"
-            image={require(`../MovieAssets/MoviePosters/${movie.img1}`)}
+            image={require(`../MovieAssets/MoviePosters/${movie.smallPoster}`)}
             alt={movie.title}
           />
         </Card>
@@ -93,7 +93,10 @@ function MovieDetails() {
             {movie.title}
           </Typography>
           <Typography variant="h6" color="gray" sx={{ mt: 1 }}>
-            {movie.genre} | {movie.year}
+          {movie.genre || "Genre N/A"} | {movie.year || "Year Unknown"}
+          </Typography>
+          <Typography variant="body1" sx={{ mt: 1 }}>
+            Rent: ${movie.rentPrice?.toFixed(2)} | Buy: ${movie.purchasePrice?.toFixed(2)}
           </Typography>
 
           {/* Tab Menu */}
@@ -113,7 +116,7 @@ function MovieDetails() {
 
           {/* Movie Description */}
           <Typography variant="body1" sx={{ mt: 2 }}>
-            {movie.description}
+            {movie.synopsis}
           </Typography>
 
           {/* Action Buttons */}
